@@ -1,0 +1,55 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: maintenance-service
+  datasource:
+    url: jdbc:postgresql://postgres_maint:5432/maintenance_db
+    username: postgres
+    password: "Bac.2020"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: maintenance-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: com.example.maintenance.dto.AlerteEvent
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+info:
+  app: Maintenance Service
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    com.example.maintenance: DEBUG
+    org.springframework.kafka: INFO
+    org.springframework.cloud.openfeign: DEBUG

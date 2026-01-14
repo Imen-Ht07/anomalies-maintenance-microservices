@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: surveillance-service
+  config:
+    import: optional:configserver:http://config-server:8888
+
+# Actuator minimal
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

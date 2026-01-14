@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maintenance-service
+  namespace: anomalies-maintenance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maintenance-service
+  template:
+    metadata:
+      labels:
+        app: maintenance-service
+    spec:
+      containers:
+        - name: maintenance-service
+          image: maintenance-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms128m -Xmx256m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: maintenance-service
+  namespace: anomalies-maintenance
+spec:
+  selector:
+    app: maintenance-service
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+  type: ClusterIP

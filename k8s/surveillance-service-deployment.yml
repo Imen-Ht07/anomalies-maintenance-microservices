@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: surveillance-service
+  namespace: anomalies-maintenance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: surveillance-service
+  template:
+    metadata:
+      labels:
+        app: surveillance-service
+    spec:
+      containers:
+        - name: surveillance-service
+          image: surveillance-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms128m -Xmx256m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: surveillance-service
+  namespace: anomalies-maintenance
+spec:
+  selector:
+    app: surveillance-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
