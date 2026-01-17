@@ -2,18 +2,19 @@ package com.example.surveillance.service;
 
 import com.example.surveillance.dto.AlerteEvent;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class KafkaProducerService {
-    private static final Logger log = LoggerFactory.getLogger(KafkaProducerService.class);
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+  private final KafkaTemplate<String, AlerteEvent> kafkaTemplate;
+  private static final String TOPIC = "alertes-topic";
 
-    public void publishAlerte(String topic, AlerteEvent event) {
-        log.info("Publication Kafka sur {}: {}", topic, event);
-        kafkaTemplate.send(topic, event);
-    }
+  public void envoyerAlerte(AlerteEvent event) {
+    log.info("[Surveillance] Envoi de l'alerte {} vers Kafka", event.getAlerteId());
+    kafkaTemplate.send(TOPIC, event.getAlerteId().toString(), event);
+  }
 }

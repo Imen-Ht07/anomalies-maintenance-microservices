@@ -3,10 +3,14 @@ package com.example.surveillance.dto;
 import lombok.*;
 import java.time.LocalDateTime;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AlerteEvent {
-    private Long id;
-    private String type;
-    private String niveauGravite;
-    private LocalDateTime dateDetection;
+  private Long alerteId;
+  private String type;
+  private String message;
+  private String niveauGravite;
+  private LocalDateTime dateDetection;
 }

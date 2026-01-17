@@ -1,10 +1,9 @@
 package com.example.surveillance.controller;
 
 import com.example.surveillance.entity.Alerte;
-import com.example.surveillance.repository.AlerteRepository;
 import com.example.surveillance.service.AlerteService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,21 +13,16 @@ import java.util.List;
 @RequestMapping("/api/alertes")
 @RequiredArgsConstructor
 public class AlerteController {
-    private final AlerteRepository alerteRepository;
-    private final AlerteService alerteService;
+  private final AlerteService alerteService;
 
-    @GetMapping
-    public List<Alerte> all() { return alerteRepository.findAll(); }
+  @PostMapping
+  public ResponseEntity<Alerte> creer(@RequestBody Alerte alerte) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(alerteService.creerAlerte(alerte));
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Alerte> byId(@PathVariable Long id) {
-        return alerteRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+  @GetMapping
+  public List<Alerte> all() { return alerteService.toutes(); }
 
-    @PostMapping
-    public ResponseEntity<Alerte> create(@Valid @RequestBody Alerte alerte) {
-        return ResponseEntity.ok(alerteService.create(alerte));
-    }
+  @GetMapping("/{id}")
+  public Alerte byId(@PathVariable Long id) { return alerteService.parId(id); }
 }

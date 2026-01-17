@@ -5,12 +5,24 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Table(name = "alertes")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Alerte {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String type;
-    private String message;
-    private String niveauGravite;
-    private LocalDateTime dateDetection;
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(nullable = false)
+  private String type;
+
+  @Column(nullable = false)
+  private String message;
+
+  @Column(name = "niveau_gravite", nullable = false)
+  private String niveauGravite; // FAIBLE, MOYEN, CRITIQUE
+
+  @Column(name = "date_detection", nullable = false)
+  private LocalDateTime dateDetection;
 }

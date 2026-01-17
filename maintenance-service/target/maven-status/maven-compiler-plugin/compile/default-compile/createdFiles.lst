@@ -1,0 +1,16 @@
+com\example\maintenance\dto\AlerteDTO$AlerteDTOBuilder.class
+com\example\maintenance\entity\Technicien.class
+com\example\maintenance\entity\Technicien$TechnicienBuilder.class
+com\example\maintenance\entity\Intervention.class
+com\example\maintenance\repository\InterventionRepository.class
+com\example\maintenance\dto\AlerteEvent$AlerteEventBuilder.class
+com\example\maintenance\dto\AlerteEvent.class
+com\example\maintenance\consumer\AlerteConsumer.class
+com\example\maintenance\entity\Intervention$InterventionBuilder.class
+com\example\maintenance\MaintenanceServiceApplication.class
+com\example\maintenance\repository\TechnicienRepository.class
+com\example\maintenance\service\InterventionService.class
+com\example\maintenance\dto\AlerteDTO.class
+com\example\maintenance\client\SurveillanceClient.class
+com\example\maintenance\controller\MaintenanceController.class
+com\example\maintenance\config\KafkaConsumerConfig.class

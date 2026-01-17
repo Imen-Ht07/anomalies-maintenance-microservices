@@ -4,31 +4,37 @@ import com.example.surveillance.dto.AlerteEvent;
 import com.example.surveillance.entity.Alerte;
 import com.example.surveillance.repository.AlerteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
+@Transactional
 public class AlerteService {
-    private final AlerteRepository alerteRepository;
-    private final KafkaProducerService producerService;
+  private final AlerteRepository alerteRepository;
+  private final KafkaProducerService kafkaProducerService;
 
-    @Value("${spring.kafka.template.default-topic:alertes-topic}")
-    private String alertesTopic;
+  public Alerte creerAlerte(Alerte alerte) {
+    Alerte saved = alerteRepository.save(alerte);
+    AlerteEvent event = AlerteEvent.builder()
+        .alerteId(saved.getId())
+        .type(saved.getType())
+        .message(saved.getMessage())
+        .niveauGravite(saved.getNiveauGravite())
+        .dateDetection(saved.getDateDetection())
+        .build();
+    kafkaProducerService.envoyerAlerte(event);
+    return saved;
+  }
 
-    @Transactional
-    public Alerte create(Alerte a) {
-        Alerte saved = alerteRepository.save(a);
-        AlerteEvent evt = AlerteEvent.builder()
-                .id(saved.getId())
-                .type(saved.getType())
-                .niveauGravite(saved.getNiveauGravite())
-                .dateDetection(saved.getDateDetection())
-                .build();
-        producerService.publishAlerte(alertesTopic, evt);
-        return saved;
-    }
+  public List<Alerte> toutes() { return alerteRepository.findAll(); }
 
-    public Alerte get(Long id) { return alerteRepository.findById(id).orElse(null); }
+  public Alerte parId(Long id) {
+    return alerteRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Alerte non trouvée: "+id));
+  }
 }

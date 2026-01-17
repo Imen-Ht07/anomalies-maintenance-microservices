@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: surveillance
+          uri: lb://SURVEILLANCE-SERVICE
+          predicates:
+            - Path=/surveillance/**
+          filters:
+            - StripPrefix=1
+        - id: maintenance
+          uri: lb://MAINTENANCE-SERVICE
+          predicates:
+            - Path=/maintenance/**
+          filters:
+            - StripPrefix=1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true

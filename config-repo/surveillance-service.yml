@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: surveillance-service
+  jackson:
+      serialization:
+        write-dates-as-timestamps: false #date
+
   datasource:
     url: jdbc:postgresql://postgres_surv:5432/surveillance_db
     username: postgres
@@ -20,6 +24,9 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
     template:
       default-topic: alertes-topic
 info:

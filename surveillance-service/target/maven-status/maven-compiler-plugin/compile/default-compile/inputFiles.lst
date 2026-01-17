@@ -1,0 +1,12 @@
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\entity\MesureAnalyse.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\SurveillanceServiceApplication.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\controller\MesureAnalyseController.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\service\MesureAnalyseService.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\service\KafkaProducerService.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\config\KafkaProducerConfig.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\controller\AlerteController.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\service\AlerteService.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\entity\Alerte.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\repository\MesureAnalyseRepository.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\dto\AlerteEvent.java
+C:\Users\bessa\Desktop\anomalies-maintenance-microservices\surveillance-service\src\main\java\com\example\surveillance\repository\AlerteRepository.java

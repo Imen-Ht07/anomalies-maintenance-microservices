@@ -8,37 +8,40 @@ import com.example.maintenance.entity.Technicien;
 import com.example.maintenance.repository.InterventionRepository;
 import com.example.maintenance.repository.TechnicienRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
+@Transactional
 public class InterventionService {
-    private static final Logger log = LoggerFactory.getLogger(InterventionService.class);
+  private final InterventionRepository interventionRepository;
+  private final TechnicienRepository technicienRepository;
+  private final SurveillanceClient surveillanceClient;
 
-    private final InterventionRepository interventionRepository;
-    private final TechnicienRepository technicienRepository;
-    private final SurveillanceClient surveillanceClient;
-
-    @Transactional
-    public Intervention planifierInterventionDepuis(AlerteEvent event) {
-        log.info("Réception alerte event: {}", event);
-        AlerteDTO alerteDetails = surveillanceClient.getAlerteById(event.getId());
-        Technicien tech = technicienRepository.findFirstByDisponibiliteTrue()
-                .orElseGet(() -> technicienRepository.save(Technicien.builder()
-                        .nom("Auto-Assign")
-                        .specialite("Généraliste")
-                        .disponibilite(true)
-                        .build()));
-        Intervention inter = Intervention.builder()
-                .alerteId(alerteDetails.getId())
-                .technicienId(tech.getId())
-                .datePlanifiee(LocalDateTime.now().plusHours(1))
-                .statut("PLANIFIEE")
-                .build();
-        return interventionRepository.save(inter);
+  public void creerInterventionDepuisAlerte(AlerteEvent event) {
+    AlerteDTO details = surveillanceClient.obtenirAlerteParId(event.getAlerteId());
+    List<Technicien> libres = technicienRepository.findByDisponibilite(true);
+    if (libres.isEmpty()) {
+      log.warn("Aucun technicien disponible pour l'alerte {}", event.getAlerteId());
+      return;
     }
+    Technicien t = libres.get(0);
+    Intervention inter = Intervention.builder()
+        .alerteId(details.getId())
+        .technicienId(t.getId())
+        .datePlanifiee(LocalDateTime.now().plusHours(2))
+        .statut("EN_ATTENTE")
+        .build();
+    interventionRepository.save(inter);
+    log.info("Intervention {} créée pour alerte {}", inter.getId(), details.getId());
+  }
+
+  public List<Intervention> toutes() { return interventionRepository.findAll(); }
+  public Intervention parId(Long id) { return interventionRepository.findById(id).orElseThrow(); }
 }

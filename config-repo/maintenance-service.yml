@@ -24,6 +24,7 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
         spring.json.value.default.type: com.example.maintenance.dto.AlerteEvent
+        spring.json.ignore.type.headers: true
 feign:
   client:
     config:

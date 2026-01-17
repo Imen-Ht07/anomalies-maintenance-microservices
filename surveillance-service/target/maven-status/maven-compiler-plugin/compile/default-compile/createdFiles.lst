@@ -1,0 +1,15 @@
+com\example\surveillance\SurveillanceServiceApplication.class
+com\example\surveillance\dto\AlerteEvent$AlerteEventBuilder.class
+com\example\surveillance\entity\MesureAnalyse.class
+com\example\surveillance\service\MesureAnalyseService.class
+com\example\surveillance\dto\AlerteEvent.class
+com\example\surveillance\config\KafkaProducerConfig.class
+com\example\surveillance\service\AlerteService.class
+com\example\surveillance\entity\MesureAnalyse$MesureAnalyseBuilder.class
+com\example\surveillance\controller\AlerteController.class
+com\example\surveillance\repository\AlerteRepository.class
+com\example\surveillance\service\KafkaProducerService.class
+com\example\surveillance\repository\MesureAnalyseRepository.class
+com\example\surveillance\entity\Alerte$AlerteBuilder.class
+com\example\surveillance\controller\MesureAnalyseController.class
+com\example\surveillance\entity\Alerte.class
